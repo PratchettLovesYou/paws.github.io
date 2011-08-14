@@ -1,0 +1,167 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta charset='UTF-8'>
+    <title>Paws ⁓ Dynamic, Asynchronous Programming</title>
+    <script src="http://use.typekit.com/ayl8iuc.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+    
+    <link rel="copyright" href="http://creativecommons.org/licenses/by-sa/3.0/" type="text/html;charset=utf-8">
+    
+    <!-- For the purposes of load-times, I serialized a few external resources into this document directly. -->
+    <!-- <link rel="stylesheet" type="text/css;charset=utf-8"
+           href="http://resources.yreality.net/Design/960/reset.css"/> -->
+    <!-- <link rel="stylesheet" type="text/css"
+           href="http://resources.yreality.net/Design/html5.css"/> -->
+    <style>
+      <![CDATA[
+        html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outline:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+        article, aside, header, footer, section, nav, dialog, figure { display:block; }
+      ]]>
+    </style>
+    
+    <style>
+      body {
+        width: 35em;
+        margin: 5em auto; }
+      body > header {
+        width: 100%;
+        height: 22.5em;
+        
+        background: url(./bg.jpg) no-repeat center center;
+        -webkit-perspective: 350;
+        -webkit-border-radius: 5px; -moz-border-radius: 5px;
+        -webkit-box-shadow: rgba(0,0,0,0.25) 0px 5px 7px;    -moz-box-shadow: rgba(0,0,0,0.1) 0px 5px 7px;
+        
+        position: relative;
+        text-align: center; }
+      body > header > h1 {
+        margin: 0px;
+        padding: 0.2em 0px;
+        /* background: rgba(0,0,0,0.75); */
+        
+        color: transparent;
+        -webkit-transform: rotate(-0.00rad) rotateX(-0.50rad) skewX(-0.050rad) skewY(-0.100rad);
+           -moz-transform:  rotate(6.5deg);
+        
+        text-shadow:    rgba(210,0,8,0.15) 0 0 10px, 
+                        rgba(238,0,11,1) 0 4px 3px, rgba(160,0,7,1) 0 9px 3px, rgba(170,0,7,1) 0 12px 1px, 
+                        rgba(0,0,0,0.2) 0 14px 5px, rgba(0,0,0,0.4) 0 20px 10px;
+        
+        font-family: metalista-web-1, metalista-web-2, "Helvetica Neue", Arial, sans-serif;
+        letter-spacing: -0.02em;
+        font-size: 1250%; }
+      body > header > ul {
+        margin: 0px;
+        padding: 0.5em 0px;
+        width: 35em;
+        display: block;
+        
+        background: rgba(225,225,225,0.65);
+        color: black;
+      }
+      body > header > ul li {
+        font-family: anisette-petite-1, anisette-petite-2, "Helvetica Neue", Arial, sans-serif;
+        font-weight: 300;
+        font-size: 145%;
+        
+        display: inline;
+        margin-right: 1.25em;
+      }
+      body > header > ul li.emphasis { font-weight: 600; }
+      body > header > ul li:last-child { margin-right: 0px; }
+      body > header > ul li:after { content: '.'; }
+      body > header #credit {
+        font-size: 75%;
+        
+        position: absolute;
+        bottom: -1.5em;
+        right: 0; }
+      body > header #credit a { text-decoration: none; }
+      body > header #credit a:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Paws</h1>
+      <ul id='subhead'><li>Concurrent</li><li class='emphasis'>Asynchronous</li><li>Dynamic</li></ul> 
+      <aside id='credit'>rest in peace,
+        <a href="http://flickr.com/photos/elliottcable/sets/72157627206121442">Tucker</a></aside>
+    </header>
+    <section><h3>Asynchronous</h3>
+      <p>Paws is the <em><em>first <strong>inherently asynchronous programming language</strong></em></em>. For
+      Paws, ‘asynchronicity’ isn’t just a buzzword — it’s the <em>watchword</em> by which the entire language was
+      conceived.
+      
+      Basically, <span id='n1'>Paws has no call‐stack,</span><aside id='n1-ref'>Paws <code>&lt;3</code> infinite
+      recursion!</aside> and <span id='n2'>its routines</span><aside id='n2-ref'>Paws doesn’t have routines. Or
+      functions. Or methods.</aside> <em><em>never “return”</em></em> to the stack‐frame of their caller.
+      Instead, the <em>callee</em> is free to <span id='n3'>produce</span><aside id='n3-ref'>Paws’ equivalent of
+      returning is called ‘producing’ from the callee’s PoV, and ‘consuming’ from the caller’s</aside> results
+      back to their caller whenever they so desire. Moreover, this ‘ability to produce’ can be
+      <span id='n4'>passed around</span><aside id='n4-ref'>if you’re familiar, the explicit application of this
+      technique (as opposed to Paws’ implicit application thereof) is called
+      <a href="http://c2.com/cgi/wiki?ContinuationPassingStyle">“Continuation Passing Style”</a></aside> to
+      <em>others</em>, who can then produce results to the original caller on behalf of the original callee.
+
+      In fact, Paws allows you (even encourages you!) to produce results to the same location <em><em>multiple
+      times!</em></em> It’s one of our most common idioms, and thanks to our concurrency model, it’s a great
+      way to parallelize multiple versions of the same production into your caller. Such freedom to “return” from
+      <em>any location</em> in your code to <em>any other</em> (within reason) is one of the core precepts of
+      Paws.
+      
+      These <em>powerful</em> methodologies also allow for far more interesting and exiting API designs than most
+      programmers are acclimated to using nowadays. Gone are the days of single caller, single set of
+      ‘arguments,’ single return “methods.” With Paws’ inherent asynchronicity, API designers are free to lay out
+      <em><em>far more intuitive interfaces</em></em>; interfaces that take <em>multiple parameters</em> from
+      <em>multiple callers</em>, as they please (and <em>whenever</em> they please!); interfaces that provide
+      data to <em>multiple others</em> at <em>multiple times</em>. More intuitive APIs means less to memorize,
+      which (in turn) means easier and more natural programming!</p>
+    </section>
+    
+    <section><h3>Concurrent</h3>
+      <p>Drop <em>everything you think you know</em> about concurrency, because in Paws, <em><em>you get
+      concurrency for free</em></em>. We have reduced all of the normal concerns involved with writing
+      concurrent code to a <em>single mechanic</em> for you to worry about; and as long as you carefully apply
+      that mechanic across the entirety of your APIs, your code will be <em>fully parallelized</em> without any
+      additional input from yourself.
+      
+      This mechanic is <em><em>“ownership.”</em></em> It can be thought of as a <em>‘data-side lock,’</em> of
+      sorts; you simply declare <em>ownership</em> of any data you need either <ol><li>need <em>multiple,
+      sequential</em> access to</li> or <li>expect to <em>mutate</em></li></ol>. In addition to managing the
+      ownership of your <em>calls</em>, you must maintain the ownership-relationships of your data via
+      <em>responsibility</em>, but that’s trivial!
+      
+      Using this information that <em>you’re</em> providing to the runtime, Paws can fully parallelize your
+      code’s operations, while simultaneously <em><em>preventing race conditions</em></em> or other side-effects
+      of unsafe concurrency.</p>
+    </section>
+    
+    <section><h3>Dynamic</h3>
+      <p>The <span id='n5'><em><em>core language</em></em></span><aside id='n5-ref'>these ascetic lingual
+      semantics are known as <em><em>Paws’ Nucleus</em></em>, and are serialized to a textual ‘intermediate form’
+      called <em><em>cPaws</em></em></aside> actually <em>run</em> by a Paws interpreter is <em>obsessively
+      spartan</em>, minimalistic to an extreme. Throughout the design process, we have continuously
+      <em>removed</em> features and concepts from this core language, and instead re-implemented them <em>in the
+      language itself</em>.
+      
+      The <em>result</em> of this process is a language that is, primarily, <em><em>implemented in
+      itself</em></em>.  This fact has one <em>extremely important consequence</em> for programmers like you:
+      <em><em>you can change almost any part of the language semantics</em></em>, <em>without modifying the
+      interpreter!</em> You (and your libraries) have just as much power over <em>the language itself</em> as
+      we, the original designers of the language, did!
+      
+      However, we’ve taken this a step further yet; because not only are most of Paws’ <em>semantics</em> defined
+      from within Paws itself … <em><em>the syntax is as well!</em></em> With our original, innovative, and
+      slightly insane <em>“interpretive preprocessor,”</em> we bootstrap all of Paws’ syntactic elements out of
+      an extremely basic set of <span id='n6'>core syntactics</span><aside id='n6-ref'>those being the ‘cPaws’
+      (or <em>“canonical Paws”</em>) format mentioned above</aside>. Again, this means that <em>you</em> have the
+      <em>same power of the language</em>, including the <em>syntax</em>!
+      
+      Put succinctly: because Paws is <em>dynamic enough to implement Paws in</em>, it’s also <em><em>dynamic
+      enough to implement your <strong>own</strong> language in.</em></em> It’s the intended end-game of Paws
+      for each and every developer to have customized the language to their own tastes; everything from the
+      <em>object system</em> to the <em>parameterization and calling conventions</em> can be completely changed
+      to suit your tastes, and yet your code can <em>still interoperate</em> with the rest of the ecosystem.</p>
+    </section>
+  </body>
+</html>
