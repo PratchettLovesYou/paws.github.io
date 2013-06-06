@@ -27,6 +27,7 @@
       body {
         width: 35em;
         margin: 5em auto; }
+      
       body > header {
         width: 100%;
         height: 22.5em;
@@ -38,8 +39,10 @@
         
         position: relative;
         text-align: center; }
-      .wf-loading body > header > h1 { visibility: hidden }
-      .wf-active body > header > h1 { visibility: show;
+      .wf-loading body > header > * { visibility: hidden }
+      .wf-active body > header > * { visibility: show }
+      
+      body > header > h1 {
         margin: 0px;
         padding: 0.2em 0px;
         /* background: rgba(0,0,0,0.75); */
@@ -55,6 +58,7 @@
         font-family: "metalista-web", "Helvetica Neue", Arial, sans-serif;
         letter-spacing: -0.02em;
         font-size: 1250%; }
+      
       body > header > ul {
         margin: 0px;
         padding: 0.5em 0px;
@@ -81,6 +85,7 @@
         position: absolute;
         bottom: -1.5em;
         right: 0; }
+      
       body > header #credit a { text-decoration: none; }
       body > header #credit a:hover { text-decoration: underline; }
     </style>
