@@ -81,11 +81,17 @@
       body > header > ul li:last-child { margin-right: 0px; }
       body > header > ul li:after { content: '.'; }
       body > header #credit {
+        opacity: 0.33;
+        -webkit-transition: opacity 0.25s cubic-bezier(0.215,0.61,0.355,1);
+        
+        font-family: "catwing", Garamond, Baskerville, "Hoefler Text", "Times New Roman", serif;
         font-size: 75%;
         
         position: absolute;
-        bottom: -1.5em;
-        right: 0; }
+        top: -1.25em;
+        right: 0.5em; }
+      body > header #credit:hover {
+        opacity: 0.65 }
       
       body > header #credit a { text-decoration: none; }
       body > header #credit a:hover { text-decoration: underline; }
