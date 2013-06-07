@@ -107,7 +107,47 @@
       
       a { color: #FA6900 }
       a:visited { color: #7a5a4f }
+      
+      .wf-loading .vanity { visibility: hidden }
+      .wf-active .vanity { visibility: show }
+      .vanity {
+        color: rgba(105,210,231,1);
+        font-family: "metalista-web", "Helvetica Neue", Arial, sans-serif;
+        font-size: 135%;
+        line-height: 1%;
+        letter-spacing: +0.02em;
+        position: relative;
+        bottom: -0.1em;
+      }
     </style>
+    
+    <script type='text/javascript'>var onAllText, replaceText, slice = Array.prototype.slice;
+      
+      onAllText = function(_){ return function(parentNode){
+        slice.apply(parentNode.childNodes).forEach(function(childNode){
+          switch(childNode.nodeType) { case Node.ELEMENT_NODE: onAllText(_)(childNode); break;
+                                       case Node.TEXT_NODE:              _ (childNode); break;
+                                       default: console.log(new(Error)("What the fuck is this shit?"),
+                                                                            childNode)} }) }}
+      
+      replaceText = function(textNode, query, replacement){ var index; var before, after;
+                                replacement = replacement.cloneNode(true);
+        if ( (index = textNode.nodeValue.indexOf(query)) !== -1 ) {
+          before = document.createTextNode( textNode.nodeValue.substr(0, index)             )
+           after = document.createTextNode( textNode.nodeValue.substr(index + query.length) )
+          
+          textNode.parentNode.insertBefore(replacement, textNode)
+          textNode.parentNode.insertBefore(before, replacement)
+          textNode.parentNode.replaceChild(after, textNode) }}
+      
+      window.onBodyLoad = function(){ var pawsNode;
+        // All of this, just to avoid innerHTML. >,>
+        pawsNode = document.createElement('span'); pawsNode.classList.add('vanity')
+        pawsNode.appendChild(document.createTextNode('Paws'))
+        slice.apply(document.getElementsByTagName('p')).forEach( onAllText(function(textNode){
+          replaceText(textNode, 'Paws', pawsNode) }))
+      }
+    </script>
   </head>
   <body>
     <header>
